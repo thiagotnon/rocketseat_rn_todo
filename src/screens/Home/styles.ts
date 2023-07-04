@@ -31,6 +31,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  buttonDisabled: {
+    borderRadius: 6,
+    backgroundColor: "#002B45",
+    width: 52,
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   taskList: {
     borderTopWidth: 1,
     borderColor: "#333333",

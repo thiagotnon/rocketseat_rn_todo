@@ -1,5 +1,6 @@
 import { Header, Task } from "../../components";
 import {
+  Alert,
   FlatList,
   Text,
   TextInput,
@@ -31,8 +32,17 @@ export const Home = () => {
     setTasks((prevState) => [...prevState, newTask]);
     setTaskTitle("");
   }
-  function handleRemoveTask(id: string) {
-    setTasks((prevState) => prevState.filter((item) => item.id !== id));
+  function handleRemoveTask(task: { id: string; title: string }) {
+    Alert.alert("Remover", `Deseja remover a tarefa ${task.title}`, [
+      {
+        text: "Sim",
+        onPress: () =>
+          setTasks((prevState) =>
+            prevState.filter((item) => item.id !== task.id)
+          ),
+      },
+      { text: "Não", style: "cancel" },
+    ]);
   }
 
   function handleCloseTask(id: string) {
@@ -58,7 +68,13 @@ export const Home = () => {
             value={taskTitle}
             onChangeText={setTaskTitle}
           />
-          <TouchableOpacity style={styles.button} onPress={handleTaskAdd}>
+          <TouchableOpacity
+            style={
+              taskTitle.length === 0 ? styles.buttonDisabled : styles.button
+            }
+            onPress={handleTaskAdd}
+            disabled={taskTitle.length === 0}
+          >
             <PlusCircle size={15} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -81,7 +97,7 @@ export const Home = () => {
             <Task
               label={item.title}
               closeTask={() => handleCloseTask(item.id)}
-              removeTask={() => handleRemoveTask(item.id)}
+              removeTask={() => handleRemoveTask(item)}
               status={item.status}
             />
           )}
